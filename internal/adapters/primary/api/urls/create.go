@@ -6,12 +6,12 @@ import (
 )
 
 func (h Handler) Create(ctx *gin.Context) {
-	var cortitoUrl domain.CortitoUrl
+	var cortitoUrl domain.CreateCortitoUrlRequest
 	if err := ctx.BindJSON(&cortitoUrl); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 	}
 
-	cortitoUrl, _ = h.UrlService.Create(cortitoUrl) //TODO: Error
+	cortitoUrlResponse, _ := h.UrlService.Create(cortitoUrl) //TODO: Error
 
-	ctx.JSON(200, cortitoUrl)
+	ctx.JSON(200, cortitoUrlResponse)
 }

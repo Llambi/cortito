@@ -10,8 +10,27 @@ type CortitoUrl struct {
 	ShortUrl string `json:"shortUrl"`
 }
 
-func (url *CortitoUrl) Shorten() {
-	url.ShortUrl = encode([]byte(url.Url))
+type FindCortitoUrlRequest struct {
+	ShortUrl string `json:"shortUrl" binding:"required"`
+}
+
+type CreateCortitoUrlRequest struct {
+	Url string `json:"url" binding:"required"`
+}
+
+type CortitoUrlResponse struct {
+	Url      string `json:"url" binding:"required"`
+	ShortUrl string `json:"shortUrl" binding:"required"`
+}
+
+func (createRequest *CreateCortitoUrlRequest) Into() CortitoUrl {
+	url := createRequest.Url
+	cortitoUrl := CortitoUrl{Url: url, ShortUrl: encode([]byte(url))}
+	return cortitoUrl
+}
+
+func (cortitoUrl *CortitoUrl) IntoCortitoUrlResponse() CortitoUrlResponse {
+	return CortitoUrlResponse(*cortitoUrl)
 }
 
 func encode(letters []byte) string {
