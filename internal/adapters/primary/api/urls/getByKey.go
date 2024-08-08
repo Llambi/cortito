@@ -11,7 +11,7 @@ func (h Handler) GetByKey(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 	}
 
-	cortitoUrl, _ = h.UrlService.GetByKey(cortitoUrl.Url)	//TODO: Fix this to use a DTO
+	cortitoUrl, _ = h.UrlService.GetByKey(cortitoUrl.Url) //TODO: Fix this to use a DTO
 
 	ctx.JSON(200, cortitoUrl)
 }

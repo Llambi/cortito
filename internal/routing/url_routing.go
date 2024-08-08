@@ -8,15 +8,15 @@ import (
 )
 
 func UrlRouting(handler url.Handler) []routers.Route {
-	return []routers.Route {
+	return []routers.Route{
 		{
 			Method: http.MethodGet,
-			Path: "/url",
+			Path:   "/url",
 			Handle: handler.GetByKey,
 		},
 		{
 			Method: http.MethodPost,
-			Path: "/url",
+			Path:   "/url",
 			Handle: handler.Create,
 		},
 	}

@@ -5,4 +5,5 @@ import (
 )
 
 func (s Service) GetByKey(key string) (domain.CortitoUrl, error) {
-	return s.Repo.GetByKey(key) }
+	return s.Repo.GetByKey(key)
+}

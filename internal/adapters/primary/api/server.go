@@ -7,25 +7,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
-type App struct{
+type App struct {
 	ginEngine *gin.Engine
-	router routers.Router
-	port int
+	router    routers.Router
+	port      int
 }
 
 func NewApp(router routers.Router) *App {
-	app := &App {
+	app := &App{
 		ginEngine: gin.Default(),
-		router: router,
-		port: 8000,
+		router:    router,
+		port:      8000,
 	}
-	
+
 	router.Init(app.ginEngine)
 
 	return app
 }
 
 func (app *App) Run() error {
-	return app.ginEngine.Run(fmt.Sprintf(":%d",app.port))
+	return app.ginEngine.Run(fmt.Sprintf(":%d", app.port))
 }

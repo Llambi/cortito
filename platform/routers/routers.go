@@ -2,16 +2,13 @@ package routers
 
 import "github.com/gin-gonic/gin"
 
-
-
-
 type Router interface {
 	Init(ginEngine *gin.Engine)
 }
 
 type Route struct {
 	Method string
-	Path string
+	Path   string
 	Handle gin.HandlerFunc
 }
 
@@ -25,12 +22,12 @@ func NewRouter(routes []Route) Router {
 	}
 }
 
-func (r *routing) Init(ginEngine *gin.Engine){
+func (r *routing) Init(ginEngine *gin.Engine) {
 	ginEngine.
 		Use(gin.Logger()).
 		Use(gin.Recovery()).
 		Use(CORSHandler)
-	
+
 	for _, router := range r.Routers {
 		ginEngine.Handle(router.Method, router.Path, router.Handle)
 	}

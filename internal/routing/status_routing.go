@@ -8,10 +8,10 @@ import (
 )
 
 func StatusRouting(handler status.Handler) []routers.Route {
-	return []routers.Route {
+	return []routers.Route{
 		{
 			Method: http.MethodGet,
-			Path: "/status",
+			Path:   "/status",
 			Handle: handler.Status,
 		},
 	}
