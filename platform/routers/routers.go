@@ -27,6 +27,8 @@ func (r *routing) Init(ginEngine *gin.Engine) {
 		Use(gin.Logger()).
 		Use(gin.Recovery()).
 		Use(CORSHandler)
+	ginEngine.Static("/assets", "./assets")
+	ginEngine.LoadHTMLGlob("templates/*.html")
 
 	for _, router := range r.Routers {
 		ginEngine.Handle(router.Method, router.Path, router.Handle)

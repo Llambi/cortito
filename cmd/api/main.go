@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/Llambi/cortito/internal/adapters/primary/api"
+	"github.com/Llambi/cortito/internal/adapters/primary/api/html"
 	"github.com/Llambi/cortito/internal/adapters/primary/api/redirect"
 	"github.com/Llambi/cortito/internal/adapters/primary/api/status"
 	url "github.com/Llambi/cortito/internal/adapters/primary/api/urls"
@@ -33,10 +34,14 @@ func main() {
 	redirectHandler := redirect.Handler{RedirectService: redirectService}
 	redirectRouting := routing.RedirectRouting(redirectHandler)
 
+	htmlHandler := html.Handler{}
+	htmlRouting := routing.HtmlRouting(htmlHandler)
+
 	var routes []routers.Route
 	routes = append(routes, statusRouting...)
 	routes = append(routes, urlRouting...)
 	routes = append(routes, redirectRouting...)
+	routes = append(routes, htmlRouting...)
 
 	app := api.NewApp(routers.NewRouter(routes))
 
