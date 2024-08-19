@@ -9,6 +9,16 @@
 
 <body>
     <h1>Cortito</h1>
+    <form hx-post="/url" hx-trigger="submit" hx-swap="none" hx-ext="json-enc">
+        <label for="url">
+            <input type="url" id="url" name="url" required placeholder="https://short.your.url">
+        </label>
+        <button type="submit">Short it!</button>
+    </form>
+    <div id="cortito-url-display">Nothing to show here!</div>
 </body>
+<script src="/assets/js/htmx.min.js"></script>
+<script src="/assets/js/json-enc.js"></script>
+<script src="/assets/js/cortito.js"></script>
 
 </html>
