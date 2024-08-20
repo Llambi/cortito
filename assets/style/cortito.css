@@ -1,0 +1,190 @@
+@font-face {
+    font-family: Sora;
+    src: url(/assets/fonts/sora-latin-800-normal.woff2);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Sora;
+    src: url(/assets/fonts/sora-latin-400-normal.woff2);
+    font-weight: regular;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5vh;
+
+    align-items: center;
+    justify-content: start;
+
+    margin-top: 16vh;
+    
+    header {
+        position: relative;
+        h1, span {
+            font-size: 18vw;
+            font-family: Sora, Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 10px;
+            color: transparent;
+            -webkit-text-stroke: .3vw black;
+        }
+    
+        span{
+            position: absolute;
+            z-index: -1;
+            top: 5px;
+            right: 7px;
+            -webkit-text-stroke: .3vw rgb(135, 213, 233);
+        }
+    }
+    
+    main {
+        display: flex;
+        flex-direction: column;
+    
+        align-items: center;
+        justify-content: stretch;
+
+        min-width: 100%;
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+
+            @media (width > 430px) {
+                width: 40vw;
+            }
+            label, input {
+                width: 100%;
+            }
+
+            input {
+                padding: 8px;
+                border: 1px solid transparent;
+                border-radius: 12px;
+
+                text-align: center;
+                
+                font-size: 1.5em;
+                font-family: Sora;
+                overflow: hidden;
+                
+                background-color: rgba(213, 213, 213, .1);;
+                box-shadow: inset 8px 8px 32px -12px rgba(0,0,0,0.1);
+                
+            }
+    
+            button[type="submit"] {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(135, 213, 233, .2);
+                border: 2px solid rgba(255, 255, 255, 0.333);
+                border-radius: 40px;
+                padding: 16px 24px;
+                transition: 0.7s;
+                box-shadow: -4px -2px 16px 0px #ffffff, 4px 2px 16px 0px rgb(95 157 231 / 48%);
+                
+    
+                &:hover{
+                    color: #516d91;
+                    background-color: rgba(135, 213, 233, .3);
+                    box-shadow: -2px -1px 8px 0px #ffffff, 2px 1px 8px 0px rgb(95 157 231 / 48%);
+
+                    & img {
+                    scale: 1.1;
+                }
+                }
+
+                &:active {
+                    box-shadow: none;
+                }
+    
+                img {
+                    width: 100%;
+                    transform: scale(-1.4, -1.4);
+                    opacity: .7;
+                    transition: scale .3s ease-in-out;
+                }
+
+            }
+        }
+        
+    }
+}
+
+article {
+    margin-top: 5vh;
+    font-family: Sora;
+    min-width: 100%;
+
+    @media (width > 430px) {
+        max-width: 45vw;
+        min-width: 45vw;
+    }
+    
+    #cortito-url-display {
+        visibility: hidden;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 10vh;
+        padding-inline: 50px;
+        
+        border-radius: 30px;
+        background: rgba(225, 225, 225, 0.1);
+        box-shadow: 15px 15px 30px #bebebe,
+                    -15px -15px 30px #ffffff;
+        
+        background-color: rgb(249 250 251);
+        a {
+            color: black;
+            text-decoration-color: black;
+            font-weight: bold;
+            text-align: center;
+        }
+        &.show{
+            visibility: visible;
+            animation: scale-in-center 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+
+        &.success {
+            background-color: rgb(52 211 153);
+        }
+    } 
+}
+
+@keyframes scale-in-center {
+    0% {
+        -webkit-transform: scale(0);
+                transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform: scale(1);
+                transform: scale(1);
+        opacity: 1;
+    }
+}
