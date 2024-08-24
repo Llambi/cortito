@@ -3,7 +3,7 @@ package routing
 import (
 	"net/http"
 
-	"github.com/Llambi/cortito/internal/adapters/primary/api/html"
+	"github.com/Llambi/cortito/internal/adapters/primary/web/html"
 	"github.com/Llambi/cortito/platform/routers"
 )
 

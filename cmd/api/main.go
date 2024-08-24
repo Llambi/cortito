@@ -4,11 +4,11 @@ import (
 	"log"
 
 	"github.com/Llambi/cortito/internal/adapters/primary/api"
-	"github.com/Llambi/cortito/internal/adapters/primary/api/html"
 	"github.com/Llambi/cortito/internal/adapters/primary/api/redirect"
 	"github.com/Llambi/cortito/internal/adapters/primary/api/status"
 	url "github.com/Llambi/cortito/internal/adapters/primary/api/urls"
-	urlMemory "github.com/Llambi/cortito/internal/adapters/secondary/repositories/memory"
+	"github.com/Llambi/cortito/internal/adapters/primary/web/html"
+	urlMemory "github.com/Llambi/cortito/internal/adapters/secondary/repositories/url/memory"
 	redirectService "github.com/Llambi/cortito/internal/core/services/redirect"
 	statusService "github.com/Llambi/cortito/internal/core/services/status"
 	urlService "github.com/Llambi/cortito/internal/core/services/url"
@@ -20,7 +20,7 @@ func main() {
 
 	store := make(map[string]string)
 
-	urlRepo := urlMemory.Repository{Store: store}
+	urlRepo := urlMemory.MemoryRepository{Store: store}
 
 	urlService := urlService.Service{Repo: urlRepo}
 	urlHandler := url.Handler{UrlService: urlService}
