@@ -13,5 +13,33 @@ document.body.addEventListener("htmx:afterRequest", function (evt) {
 
 document.body.addEventListener("htmx:beforeRequest", function (evt) {
     const cortitoUrlDisplay$ = document.querySelector("#cortito-url-display");
-    cortitoUrlDisplay$.classList.remove("show");
+    cortitoUrlDisplay$.classList.toggle("hide");
+    cortitoUrlDisplay$.classList.toggle("show");
 });
+
+document
+    .querySelector("#cortito-url-display")
+    ?.addEventListener("click", function () {
+        navigator.permissions
+            .query({ name: "clipboard-write" })
+            .then((result) => {
+                if (result.state === "granted" || result.state === "prompt") {
+                    const cortitoUrlDisplay$ = document.querySelector(
+                        "#cortito-url-display"
+                    );
+                    const cortitoAnchor$ =
+                        cortitoUrlDisplay$.querySelector("a");
+                    navigator.clipboard
+                        .writeText(cortitoAnchor$.href)
+                        .then(() => {
+                            // Update text to notify that the text was copied to the clipboard
+                            cortitoAnchor$.text = "COPIED!";
+                            cortitoUrlDisplay$.classList.add("success");
+                            setTimeout(() => {
+                                cortitoUrlDisplay$.classList.remove("show");
+                                cortitoUrlDisplay$.classList.remove("success");
+                            }, 1500);
+                        });
+                }
+            });
+    });
