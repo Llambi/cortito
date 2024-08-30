@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/Llambi/cortito/internal/adapters/primary/api"
 	"github.com/Llambi/cortito/internal/adapters/primary/api/redirect"
@@ -9,21 +10,25 @@ import (
 	url "github.com/Llambi/cortito/internal/adapters/primary/api/urls"
 	"github.com/Llambi/cortito/internal/adapters/primary/web/html"
 	urlMemory "github.com/Llambi/cortito/internal/adapters/secondary/repositories/url/memory"
+	userMemory "github.com/Llambi/cortito/internal/adapters/secondary/repositories/user/memory"
 	redirectService "github.com/Llambi/cortito/internal/core/services/redirect"
 	statusService "github.com/Llambi/cortito/internal/core/services/status"
 	urlService "github.com/Llambi/cortito/internal/core/services/url"
+	userService "github.com/Llambi/cortito/internal/core/services/user"
 	"github.com/Llambi/cortito/internal/routing"
 	"github.com/Llambi/cortito/platform/routers"
+	"github.com/scalalang2/golang-fifo/sieve"
 )
 
 func main() {
-
-	store := make(map[string]string)
-
-	urlRepo := urlMemory.MemoryRepository{Store: store}
+	urlStore := sieve.New[string, string](30, 30*time.Minute)
+	userStore := sieve.New[string, string](30, 30*time.Minute)
+	urlRepo := urlMemory.MemoryRepository{Store: urlStore}
+	userRepo := userMemory.MemoryRepository{Store: userStore}
 
 	urlService := urlService.Service{Repo: urlRepo}
-	urlHandler := url.Handler{UrlService: urlService}
+	userService := userService.Service{Repo: userRepo}
+	urlHandler := url.Handler{UrlService: urlService, UserService: userService}
 	urlRouting := routing.UrlRouting(urlHandler)
 
 	statusService := statusService.Service{}

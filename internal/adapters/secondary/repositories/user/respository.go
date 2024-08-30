@@ -1,4 +1,4 @@
-package url
+package user
 
 import "github.com/scalalang2/golang-fifo/sieve"
 

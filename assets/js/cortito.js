@@ -1,14 +1,25 @@
 document.body.addEventListener("htmx:afterRequest", function (evt) {
-    const { response } = evt.detail.xhr;
-    const cortitoUrl = JSON.parse(response);
-
-    const protocol = window.location.protocol;
-    const port = window.location.port ? `:${window.location.port}` : "";
-    const url = `${protocol}//${window.location.hostname}${port}/r/${cortitoUrl.shortUrl}`;
-
+    const { xhr } = evt.detail;
+    const { response } = xhr;
+    const cortitoUrlResponse = JSON.parse(response);
     const cortitoUrlDisplay$ = document.querySelector("#cortito-url-display");
+    let elementToDisplay = "";
+    if (xhr.status === 429) {
+        cortitoUrlDisplay$.classList.add("error");
+        elementToDisplay = `<p>The quota has been exceeded!<br/>Try it later</p>`;
+        setTimeout(() => {
+            cortitoUrlDisplay$.classList.remove("show");
+            cortitoUrlDisplay$.classList.remove("error");
+        }, 3000);
+    } else {
+        const protocol = window.location.protocol;
+        const port = window.location.port ? `:${window.location.port}` : "";
+        const url = `${protocol}//${window.location.hostname}${port}/r/${cortitoUrlResponse.data.shortUrl}`;
+        elementToDisplay = `<a href=${url} target="_blank" rel="noopener noreferrer">${url}</a>`;
+    }
+
     cortitoUrlDisplay$.classList.add("show");
-    cortitoUrlDisplay$.innerHTML = `<a href=${url} target="_blank" rel="noopener noreferrer">${url}</a>`;
+    cortitoUrlDisplay$.innerHTML = elementToDisplay;
 });
 
 document.body.addEventListener("htmx:beforeRequest", function (evt) {
