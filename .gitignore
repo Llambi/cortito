@@ -1,2 +1,5 @@
 .vscode
 Apidoc/
+
+.env*
+!.env.example

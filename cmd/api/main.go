@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"time"
 
 	"github.com/Llambi/cortito/internal/adapters/primary/api"
 	"github.com/Llambi/cortito/internal/adapters/primary/api/redirect"
@@ -16,18 +15,21 @@ import (
 	urlService "github.com/Llambi/cortito/internal/core/services/url"
 	userService "github.com/Llambi/cortito/internal/core/services/user"
 	"github.com/Llambi/cortito/internal/routing"
+	"github.com/Llambi/cortito/platform/config"
 	"github.com/Llambi/cortito/platform/routers"
 	"github.com/scalalang2/golang-fifo/sieve"
 )
 
 func main() {
-	urlStore := sieve.New[string, string](30, 30*time.Minute)
-	userStore := sieve.New[string, string](30, 30*time.Minute)
+	configManager := config.GetInstance()
+
+	urlStore := sieve.New[string, string](30, configManager.UrlTTL)
+	userStore := sieve.New[string, string](30, configManager.UserTTL)
 	urlRepo := urlMemory.MemoryRepository{Store: urlStore}
 	userRepo := userMemory.MemoryRepository{Store: userStore}
 
 	urlService := urlService.Service{Repo: urlRepo}
-	userService := userService.Service{Repo: userRepo}
+	userService := userService.Service{Repo: userRepo, Config: configManager}
 	urlHandler := url.Handler{UrlService: urlService, UserService: userService}
 	urlRouting := routing.UrlRouting(urlHandler)
 

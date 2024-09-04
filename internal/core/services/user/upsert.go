@@ -16,8 +16,8 @@ func (s Service) Upsert(CreateCortitoUserRequest domain.CreateCortitoUserRequest
 			// And RefreshAt is over too
 			if foundCortitoUser.RefreshAt.Before(time.Now()) {
 				// Refresh all
-				foundCortitoUser.Quota = 30
-				foundCortitoUser.RefreshAt = time.Now().Add(30 * time.Minute)
+				foundCortitoUser.Quota = s.Config.UserQuota
+				foundCortitoUser.RefreshAt = time.Now().Add(s.Config.UserTTL)
 			} else { // RefreshAt is not over
 				// The user must wait
 				return domain.CortitoUserResponse{}, errors.New("the quota has been exhausted")
@@ -30,8 +30,8 @@ func (s Service) Upsert(CreateCortitoUserRequest domain.CreateCortitoUserRequest
 			return domain.CortitoUserResponse{}, errors.New("can not update the user")
 		}
 	} else {
-		cortitoUser.Quota = 30
-		cortitoUser.RefreshAt = time.Now().Add(30 * time.Minute)
+		cortitoUser.Quota = s.Config.UserQuota
+		cortitoUser.RefreshAt = time.Now().Add(s.Config.UserTTL)
 		cortitoUser, err = s.Repo.Insert(cortitoUser)
 		if err != nil {
 			return domain.CortitoUserResponse{}, errors.New("can not create the user")
